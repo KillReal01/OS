@@ -1,6 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <locale.h>
 
 typedef struct{
     int flag;
@@ -34,6 +35,7 @@ void *proc2(void *arg){
 
  int main()
  {
+     setlocale(LC_ALL, NULL);
      printf("Программа начала работу\n");
      pthread_t id1, id2;
      targs arg1, arg2;
