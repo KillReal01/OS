@@ -46,12 +46,12 @@ void *proc2(void *arg){
      arg2 = {0, '2'};
 
      CPU_ZERO(&cpu1);
-     CPU_SET(1, &cpu1);
+     CPU_SET(0, &cpu1);
      pthread_create(&id1, NULL, proc1, &arg1);
      pthread_setaffinity_np(id1, sizeof(cpu_set_t), &cpu1);
 
      CPU_ZERO(&cpu2);
-     CPU_SET(2, &cpu2);
+     CPU_SET(1, &cpu2);
      pthread_create(&id2, NULL, proc2, &arg2);
      pthread_setaffinity_np(id2, sizeof(cpu_set_t), &cpu2);
      
