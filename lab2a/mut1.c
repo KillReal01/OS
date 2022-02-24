@@ -15,18 +15,12 @@ void *proc1(void *arg){
     targs* args = (targs*) arg;
     while (args->flag == 0){
         int ret = pthread_mutex_lock(&mutex);
-        if (ret == 0){
-            for (int i = 0; i < 5; i++){
-        	    putchar(args->sym);
-        	    fflush(stdout);
-        	    sleep(1);
-            }
-            pthread_mutex_unlock(&mutex);
+        for (int i = 0; i < 5; i++){
+        	putchar(args->sym);
+        	fflush(stdout);
+        	sleep(1);
         }
-        else{
-            printf("\nОшибка в 1 потоке:%s\n", strerror(ret));
-            fflush(stdout);
-        }
+        pthread_mutex_unlock(&mutex);
         sleep(1);
     }
     printf("\nПоток 1 завершил работу\n");
@@ -38,18 +32,12 @@ void *proc2(void *arg){
     targs* args = (targs*) arg;
     while (args->flag == 0){
         int ret = pthread_mutex_lock(&mutex);
-        if (ret == 0){
-            for (int i = 0; i < 5; i++){
-        	    putchar(args->sym);
-        	    fflush(stdout);
-        	    sleep(1);
-            }
-            pthread_mutex_unlock(&mutex);
+        for (int i = 0; i < 5; i++){
+        	putchar(args->sym);
+        	fflush(stdout);
+        	sleep(1);
         }
-        else{
-            printf("\nОшибка во 2 потоке:%s\n", strerror(ret));
-            fflush(stdout);
-        }
+        pthread_mutex_unlock(&mutex);
         sleep(1);
     }
     printf("\nПоток 2 завершил работу\n");
