@@ -1,6 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 #include <locale.h>
 
 typedef struct{
@@ -30,7 +31,7 @@ void *proc1(void *arg){
             printf("\nОшибка в 1 потоке:%s\n", strerror(ret));
             fflush(stdout);
         }
-        sleep(1);
+        //sleep(1);
     }
     printf("\nПоток 1 завершил работу\n");
     pthread_exit((void*)1);
@@ -56,7 +57,7 @@ void *proc2(void *arg){
             printf("\nОшибка во 2 потоке:%s\n", strerror(ret));
             fflush(stdout);
         }
-        sleep(1);
+        //sleep(1);
     }
     printf("\nПоток 2 завершил работу\n");
     pthread_exit((void*)2);
