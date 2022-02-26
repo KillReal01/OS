@@ -32,12 +32,18 @@ void *proc2(void *arg){
     targs* args = (targs*) arg;
     while (args->flag == 0){
         int ret = pthread_mutex_lock(&mutex);
-        for (int i = 0; i < 5; i++){
-        	putchar(args->sym);
-        	fflush(stdout);
-        	sleep(1);
+        if (ret == 0){
+            for (int i = 0; i < 5; i++){
+        	    putchar(args->sym);
+        	    fflush(stdout);
+        	    sleep(1);
+            }
+            pthread_mutex_unlock(&mutex);
         }
-        pthread_mutex_unlock(&mutex);
+        else{
+            printf("\nОшибка во 2 потоке:%s\n", strerror(ret));
+            fflush(stdout);
+        }
         sleep(1);
     }
     printf("\nПоток 2 завершил работу\n");

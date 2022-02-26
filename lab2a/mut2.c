@@ -23,12 +23,13 @@ void *proc1(void *arg){
         	    sleep(1);
             }
             pthread_mutex_unlock(&mutex);
+            sleep(1);//после выхода из критического участка ждем 1с
         }
         else{
             printf("\nОшибка в 1 потоке:%s\n", strerror(ret));
             fflush(stdout);
         }
-        sleep(1);
+        usleep(500000);//опрос занятости ресурса каждые 0,5с
     }
     printf("\nПоток 1 завершил работу\n");
     pthread_exit((void*)1);
@@ -46,12 +47,13 @@ void *proc2(void *arg){
         	    sleep(1);
             }
             pthread_mutex_unlock(&mutex);
+            sleep(1);//после выхода из критического участка ждем 1с
         }
         else{
             printf("\nОшибка во 2 потоке:%s\n", strerror(ret));
             fflush(stdout);
         }
-        sleep(1);
+        usleep(500000);//опрос занятости ресурса каждые 0,5с
     }
     printf("\nПоток 2 завершил работу\n");
     pthread_exit((void*)2);
