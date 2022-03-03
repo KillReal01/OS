@@ -5,6 +5,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 
 typedef struct{
     int flag;
@@ -21,7 +22,10 @@ void *proc1(void *arg){
         struct stat statbuf;
         int ret = stat("fcntl.c", &statbuf);
         buf = statbuf.st_size;
-        ssize_t k = write(filedes[1], &buf, sizeof(buf));
+        int k = write(filedes[1], &buf, sizeof(buf));
+        if (k == -1){
+            printf("Запись невозможна, ошибка: %s\n", strerror(errno));
+        }
         sleep(1);
     }
     printf("\nПоток 1 завершил работу\n");
@@ -33,8 +37,18 @@ void *proc2(void *arg){
     targs* args = (targs*) arg;
     int buf;
     while (args->flag == 0){
-        ssize_t k = read(filedes[0], &buf, sizeof(buf));
-        printf("size of file %i bytes\n", buf);
+        int k = read(filedes[0], &buf, sizeof(buf));
+        if (k == -1){
+            printf("Чтение невозможно, ошибка: %s\n", strerror(errno));
+            sleep(1);
+        }
+        else if (k == 0){
+            printf("Конец файла\n");
+            sleep(1);
+        }
+        else{
+            printf("Размер файла: %i байт\n", buf);
+        }
     }
     printf("\nПоток 2 завершил работу\n");
     pthread_exit((void*)2);

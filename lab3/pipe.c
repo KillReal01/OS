@@ -33,7 +33,7 @@ void *proc2(void *arg){
     int buf;
     while (args->flag == 0){
         ssize_t k = read(filedes[0], &buf, sizeof(buf));
-        printf("size of file %i bytes\n", buf);
+        printf("Размер файла: %i байт\n", buf);
     }
     printf("\nПоток 2 завершил работу\n");
     pthread_exit((void*)2);
