@@ -4,6 +4,7 @@
 #include <locale.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 
 typedef struct{
     int flag;
@@ -18,9 +19,9 @@ void *proc1(void *arg){
     int buf;
     while (args->flag == 0){
         struct stat statbuf;
-        int ret = stat("pipe.c", &statbuf);
+        int ret = stat("fcntl.c", &statbuf);
         buf = statbuf.st_size;
-        //ssize_t k = write(filedes[1], &buf, sizeof(buf));
+        ssize_t k = write(filedes[1], &buf, sizeof(buf));
         sleep(1);
     }
     printf("\nПоток 1 завершил работу\n");
@@ -39,7 +40,6 @@ void *proc2(void *arg){
     pthread_exit((void*)2);
 }
 
-
  int main()
  {
      setlocale(LC_ALL, NULL);
@@ -52,7 +52,8 @@ void *proc2(void *arg){
      arg2 = {0, '2'};
 
      pipe(filedes);
-
+     fcntl(filedes[0], F_SETFL, O_NONBLOCK);
+     fcntl(filedes[1], F_SETFL, O_NONBLOCK);
      pthread_create(&id1, NULL, proc1, &arg1);
      pthread_create(&id2, NULL, proc2, &arg2);
      

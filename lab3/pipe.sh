@@ -1,4 +1,4 @@
 #!/bin/sh
 g++ -c pipe.c
-g++ -o lab pipe.o -pthread
-./lab
+g++ -o pipe pipe.o -pthread
+./pipe
