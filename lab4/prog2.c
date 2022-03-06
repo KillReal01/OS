@@ -4,14 +4,14 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-int main()
+int main(int argc, char* argv[])
  {
      setlocale(LC_ALL, NULL);
      printf("Программа 2 начала работу\n");
      pid_t rv;
      pid_t pid = fork();
      int status;
-     char *const argv[] = {"hello", "Kirill", NULL};
+     //char *argv[] = {"hello", "Kirill", NULL};
 
      if (pid == 0){
          execv("prog1", argv);
