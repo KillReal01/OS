@@ -11,7 +11,6 @@ int main(int argc, char* argv[])
      pid_t rv;
      pid_t pid = fork();
      int status;
-     //char *argv[] = {"hello", "Kirill", NULL};
 
      if (pid == 0){
          execv("prog1", argv);
@@ -27,8 +26,8 @@ int main(int argc, char* argv[])
          if (rv == -1){
              printf("Ошибка waitpid\n");
          }
-         else{
-             printf("Код завершения дочернего процесса: %d\n", status);
+         else if (WIFEXITED(status)){
+             printf("Код завершения дочернего процесса: %d\n", WEXITSTATUS(status));
          }
      }
      else{
