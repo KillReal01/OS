@@ -4,6 +4,7 @@
 #include <semaphore.h>
 #include <fcntl.h>
 #include <locale.h>
+#include <fstream>
 
 typedef struct{
     int flag;
@@ -11,21 +12,21 @@ typedef struct{
     sem_t* sem;
 } targs;
 
+
 const char semname[] = "/mysem";
 const char filename[] = "text.txt";
+std::ofstream file(filename, std::fstream::app);
 
 void *proc(void *arg){
     printf("\nПоток 1 программы начал работу\n");
     targs* args = (targs*) arg;
-    FILE* fp;
     while (args->flag == 0){
         sem_wait(args->sem);
         for (int i = 0; i < 5; i++){
-            fp = fopen(filename, "a");
-            fputc(args->sym, fp);
+            file << args->sym;
+            file.flush();
             putchar(args->sym);
             fflush(stdout);
-            fclose(fp);
             sleep(1);
         }
         sem_post(args->sem);
@@ -52,7 +53,8 @@ void *proc(void *arg){
      pthread_join(id, NULL);
      sem_close(arg.sem);
      sem_unlink(semname);
-     
+
+     file.close();
      printf("\nПрограмма 1 завершила работу\n");
      return 0;
  }
