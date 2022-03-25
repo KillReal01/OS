@@ -11,7 +11,6 @@
 #include <locale.h>
 #include <signal.h>
 
-
 int flag_s = 0, flag_g = 0;
 int sock;
 struct sockaddr_in addr, from;
@@ -65,7 +64,6 @@ int main()
     sock = socket(AF_INET, SOCK_DGRAM, 0);
     int optval = 1;
     setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
-
 
     addr.sin_family = AF_INET;
     addr.sin_port = htons(7000);
