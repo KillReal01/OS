@@ -2,6 +2,7 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <netinet/in.h>
+
 #include <stdio.h>
 #include <cstring>
 #include <stdlib.h>
@@ -33,7 +34,7 @@ void* getting(void*){
     socklen_t len;
     while (!flag_g){
         len = sizeof(addr);
-        if (recvfrom(sock, buf, 1024, 0, (struct sockaddr *)&addr, &len) < 0){
+        if (recvfrom(sock, buf, 1024, 0, (struct sockaddr *)&from, &len) < 0){
             perror("recvfrom");
         }
         else{
@@ -91,7 +92,7 @@ void* sending(void*){
             strcpy(buf, q_ans.front());
             q_ans.pop();
             pthread_mutex_unlock(&mutex_ans);
-            sendto(sock, buf, 1024, 0, (struct sockaddr *)&addr, sizeof(addr));
+            sendto(sock, buf, 1024, 0, (struct sockaddr *)&from, sizeof(addr));
             printf("Ответ №%i отправлен\n\n", i);
             i++;
         }
@@ -139,6 +140,9 @@ int main()
     pthread_join(id1, NULL);
     pthread_join(id2, NULL);
     pthread_join(id3, NULL);
+
+    printf("\nclient port: %d\n", ntohs(from.sin_port));
+    printf("server port: %d\n", ntohs(addr.sin_port));
 
     pthread_mutex_destroy(&mutex_req);
     pthread_mutex_destroy(&mutex_ans);

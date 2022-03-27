@@ -11,6 +11,7 @@
 #include <locale.h>
 #include <signal.h>
 
+
 int flag_s = 0, flag_g = 0;
 int sock;
 struct sockaddr_in addr, from;
@@ -78,6 +79,10 @@ int main()
 
     pthread_join(id1, NULL);
     pthread_join(id2, NULL);
+
+    printf("\nclient port: %d\n", ntohs(addr.sin_port));
+    
+
     close(sock);
     printf("\nКлиент завершил работу\n");
     return 0;
