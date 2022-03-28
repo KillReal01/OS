@@ -80,8 +80,9 @@ int main()
     pthread_join(id1, NULL);
     pthread_join(id2, NULL);
 
+    socklen_t len = sizeof(addr);
+    getsockname(sock, (struct sockaddr *)&addr, &len);
     printf("\nclient port: %d\n", ntohs(addr.sin_port));
-    
 
     close(sock);
     printf("\nКлиент завершил работу\n");
